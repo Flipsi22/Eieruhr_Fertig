@@ -1,2 +1,33 @@
-#include <Wire.h>
 
+// Neopixel animation
+  if (currentValue > 0) {
+    currentValue--;
+  }
+
+  int red = 0;
+  int green = 0;
+  int blue = 0;
+  
+  int ledIndex = (targetValue > 0) ? NUM_LEDS - (remainingTime / (targetValue * 1000 / NUM_LEDS)) : 0;
+  if (ledIndex >= NUM_LEDS) {
+    ledIndex = NUM_LEDS - 1;
+  }
+
+  if (ledIndex < 2) {
+    green = 255;
+  } else if (ledIndex < 6) {
+    red = 255;
+    green = 165; // Orange
+  } else {
+    red = 255;
+  }
+
+  for (int i = 0; i < NUM_LEDS; i++) {
+    if (i <= ledIndex) {
+      strip.setPixelColor(i, red, green, blue);
+    } else {
+      strip.setPixelColor(i, 0, 0, 0); // Ausschalten der nicht aktivierten LEDs
+    }
+  }
+  strip.show();
+}
